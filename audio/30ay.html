@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>30. Ayımız Kutlu Olsun ❤️</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html { height: 100%; overflow: hidden; font-family: 'Georgia', serif; }
+
+    /* Slayt alanı */
+    .slideshow {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+    }
+    .slide.active { opacity: 1; }
+
+    /* Koyu katman */
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1;
+    }
+
+    /* Yazılar */
+    .content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #fff;
+      padding: 20px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+      max-width: 700px;
+      margin: auto;
+    }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      animation: pulse 2s infinite;
+    }
+    p {
+      font-size: 1.3rem;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    /* Kalpler */
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      color: #ff5e78;
+      animation: floatUp 6s linear infinite;
+    }
+    @keyframes floatUp {
+      from { transform: translateY(100vh) scale(0.5); opacity: 1; }
+      to { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Slaytlar -->
+  <div class="slideshow">
+    <div class="slide active" style="background-image: url('resim1.jpg');"></div>
+    <div class="slide" style="background-image: url('resim2.jpg');"></div>
+    <div class="slide" style="background-image: url('resim3.jpg');"></div>
+    <div class="slide" style="background-image: url('resim4.jpg');"></div>
+    <div class="slide" style="background-image: url('gif1.gif');"></div>
+  </div>
+
+  <div class="overlay"></div>
+  <div class="content">
+    <h1>❤️ 30. Ayımız Kutlu Olsun ❤️</h1>
+    <p>Seninle geçen her gün, hayatımın en değerli hediyesi oldu.</p>
+    <p>30 ay boyunca bana kattığın mutluluk, huzur ve sevgiyi kelimelerle anlatmam mümkün değil.</p>
+    <p>Sen sadece sevgilim değil, aynı zamanda en iyi arkadaşım, sırdaşım ve en büyük ilham kaynağımsın.</p>
+    <p>Nice aylarımız, nice yıllarımız olsun aşkım… Sonsuza kadar seninle. 💕</p>
+  </div>
+
+  <!-- Arka plan müzik -->
+  <audio id="bg-music" autoplay loop muted>
+    <source src="sarki.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // Slayt geçişleri
+    const slides = document.querySelectorAll('.slide');
+    let index = 0;
+
+    function showNextSlide() {
+      slides[index].classList.remove('active');
+      index++;
+      if(index >= slides.length) index = slides.length - 1; // son slaytta sabit kal
+      slides[index].classList.add('active');
+    }
+
+    let interval = setInterval(() => {
+      if(index < slides.length - 1) {
+        showNextSlide();
+      } else {
+        clearInterval(interval);
+      }
+    }, 4000);
+
+    // Kalpler
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (15 + Math.random() * 20) + "px";
+      heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }
+    setInterval(createHeart, 400);
+
+    // Müzik - sessiz başla, sonra aç
+    const music = document.getElementById("bg-music");
+    music.volume = 0.2; // %20 ses
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        music.muted = false;
+        music.play().catch(() => {
+          console.log("Tarayıcı otomatik oynatmayı engelledi. İlk tıklamada başlayacak.");
+        });
+      }, 500);
+    });
+  </script>
+</body>
+</html>
